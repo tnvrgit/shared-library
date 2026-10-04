@@ -1,10 +1,12 @@
-def call(Map config [:]) {
-  def branch      = config.get('branch', 'main')
-  def repoUrl     = config.get('url')
-  if (!repoUrl) {
+def call(Map config = [:]) {
+    def branch  = config.get('branch', 'main')
+    def repoUrl = config.get('url')
+    
+    if (!repoUrl) {
         error "gitCheckout Error: 'url' parameter is required."
     }
-  checkout([
+    
+    checkout([
         $class: 'GitSCM', 
         branches: [[name: "refs/heads/${branch}"]],
         doGenerateSubmoduleConfigurations: false, 
