@@ -1,5 +1,5 @@
 def call(Map config = [:]) {
-    def branch  = config.get('branch', 'main')
+    def branch  = config.get('branch', 'master')
     def repoUrl = config.get('url')
     
     if (!repoUrl) {
