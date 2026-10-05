@@ -1,20 +1,22 @@
 def call(Map config = [:]) {
-  // 1. Set default values if not provided by the pipeline
-    def mavenToolName = config.get('mavenTool', 'maven-3.10')
-    def jdkToolName   = config.get('jdkTool', 'jdk-21')
+    // 1. Set default values if not provided by the pipeline
+    def mavenToolName = config.get('mavenTool')
+    def jdkToolName   = config.get('jdkTool')
     def goals         = config.get('goals', 'clean install')
-    def pom_path      = config.get('pom_path')
 
     // 2. Wrap execution inside the tools block dynamically
     showTools(mavenToolName, jdkToolName) {
         // 3. Detect OS automatically to use 'sh' or 'bat'
         if (isUnix()) {
-            sh "mvn -f $(pom_path) ${goals}"
+            sh "mvn ${goals}"
         } else {
-            bat "mvn -f $(pom_path) ${goals}"
+            bat "mvn ${goals}"
         }
     }
-  def showTools(String mavenName, String jdkName, Closure body) {
+}
+
+// Helper method to bind tools within the script block
+def showTools(String mavenName, String jdkName, Closure body) {
     // Obtains tools paths dynamically inside the script step
     def mvnHome = tool name: mavenName, type: 'hudson.tasks.Maven$MavenInstallation'
     def jdkHome = tool name: jdkName, type: 'hudson.model.JDK'
