@@ -1,4 +1,4 @@
 def call(Map config = [:]) {
-  def msg  = config.get('msg', 'hellooo')
-  bat "mvn -f ./my-app/pom.xml clean" 
+  def path  = config.get('path', './my-app/pom.xml')
+  bat "mvn -f ${path} clean" 
 }
