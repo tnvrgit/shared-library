@@ -1,4 +1,5 @@
 def call(Map config = [:]) {
-  def path  = config.get('path', './my-app/pom.xml')
-  bat "mvn -f ${path} clean" 
+  def pompath  = config.get('pompath')
+  def goals = config.get('goals', 'clean install')
+  bat "mvn -f ${path} ${goals}" 
 }
