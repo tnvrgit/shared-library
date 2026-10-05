@@ -14,4 +14,12 @@ def call(Map config = [:]) {
             bat "mvn -f $(pom_path) ${goals}"
         }
     }
+  def showTools(String mavenName, String jdkName, Closure body) {
+    // Obtains tools paths dynamically inside the script step
+    def mvnHome = tool name: mavenName, type: 'hudson.tasks.Maven$MavenInstallation'
+    def jdkHome = tool name: jdkName, type: 'hudson.model.JDK'
+    
+    withEnv(["PATH+MAVEN=${mvnHome}/bin", "JAVA_HOME=${jdkHome}"]) {
+        body()
+    }
 }
