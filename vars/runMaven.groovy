@@ -4,5 +4,10 @@ def call(Map config = [:]) {
   if (!pompath) {
     error "Please enter pom path"
   }
-  bat "mvn -f ${pompath} ${goals}" 
+  //bat "mvn -f ${pompath} ${goals}" 
+  if (isUnix()) {
+        sh "mvn -f ${pompath} ${goals}"
+    } else {
+        bat "mvn -f ${pompath} ${goals}"
+    }
 }
