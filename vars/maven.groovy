@@ -3,14 +3,15 @@ def call(Map config = [:]) {
     def mavenToolName = config.get('mavenTool', 'maven-3.10')
     def jdkToolName   = config.get('jdkTool', 'jdk-21')
     def goals         = config.get('goals', 'clean install')
+    def pom_path      = config.get('pom_path')
 
     // 2. Wrap execution inside the tools block dynamically
     showTools(mavenToolName, jdkToolName) {
         // 3. Detect OS automatically to use 'sh' or 'bat'
         if (isUnix()) {
-            sh "mvn ${goals}"
+            sh "mvn -f $(pom_path) ${goals}"
         } else {
-            bat "mvn ${goals}"
+            bat "mvn -f $(pom_path) ${goals}"
         }
     }
 }
